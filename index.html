@@ -40,15 +40,13 @@
 
 #suratContent {
     width: 210mm;
-    min-height: 330mm; /* Standar F4 */
+    height: 330mm; /* FIX: pakai height, bukan min-height */
     margin: 0 !important;
-    padding: 15mm;
+    padding: 10mm 15mm 8mm 15mm; /* FIX: top diperkecil */
     box-sizing: border-box;
-    overflow: hidden; /* Mengunci konten agar tidak meluber */
+    overflow: hidden;
     background: white;
     position: relative;
-    page-break-after: avoid;
-    page-break-before: avoid;
 }
 </style>
 </head>
@@ -66,7 +64,7 @@
             <div class="mb-6 text-sm uppercase text-gray-700">
 <div class="mb-8 text-sm uppercase text-blue-700">
   <p class="font-bold uppercase mb-3">
-    SELAMAT DATANG WALI PENDAMPING KELAS :
+    SELAMAT DATANG WALI PENDAMPING KELAS
   </p>
 
   <ul class="list-disc list-inside space-y-1 text-xs">
@@ -441,7 +439,15 @@
         }
     };
 
-function downloadPDF() {
+async function downloadPDF() {
+    const btn = document.getElementById('btnUnduh');
+    const originalText = btn.innerText;
+
+    btn.innerText = "Menyiapkan...";
+    btn.disabled = true;
+    btn.classList.add('bg-gray-400', 'cursor-not-allowed');
+    btn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+
     const element = document.getElementById('suratContent');
     const kelasRaw = document.getElementById('selectKelas').value || 'TANPA KELAS';
     const kelas = kelasRaw.replace('Kelas ', '').trim();
@@ -458,27 +464,45 @@ function downloadPDF() {
     const namaFile = `${kelas}_${nama}_${bulan}_${tahun}`.toUpperCase();
     const isMobile = window.innerWidth < 768;
 
-const opt = {
-    margin: 0,
-    image: { type: 'jpeg', quality: 1 },
-    html2canvas: {
-        scale: isMobile ? 1 : 2,
-        useCORS: true,
-        logging: false
-    },
-    jsPDF: {
-        unit: 'mm',
-        format: [210, 330],
-        orientation: 'portrait',
-        compress: true
-    },
-    pagebreak: false
-};
+    const opt = {
+        margin: [0, 0, 0, 0],
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: {
+            scale: isMobile ? 1 : 2,
+            useCORS: true,
+            logging: false,
+            windowWidth: 794,
+            windowHeight: 1240
+        },
+        jsPDF: {
+            unit: 'mm',
+            format: [210, 330],
+            orientation: 'portrait',
+            compress: true
+        },
+        pagebreak: { mode: ['avoid-all'] }
+    };
 
-    html2pdf()
-        .set(opt)
-        .from(element)
-        .save();
+    try {
+        await html2pdf()
+            .set(opt)
+            .from(element)
+            .save(namaFile + ".pdf");
+
+        btn.innerText = "Dokumen Selesai ✔";
+        setTimeout(() => {
+            btn.innerText = originalText;
+            btn.disabled = false;
+            btn.classList.remove('bg-gray-400', 'cursor-not-allowed');
+            btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+        }, 2000);
+
+    } catch (err) {
+        alert("Gagal membuat PDF");
+        console.error(err);
+        btn.innerText = originalText;
+        btn.disabled = false;
+    }
 }
 
     async function handleSendEmail(event) {
@@ -510,7 +534,7 @@ if (
     return;
 }
 
-        btn.innerText = "Finalisasi...";
+        btn.innerText = "Mengunggah...";
         btn.disabled = true;
 
         try {
@@ -559,4 +583,3 @@ const opt = {
 </script>
 </body>
 </html>
-
