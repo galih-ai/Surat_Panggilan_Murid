@@ -75,7 +75,7 @@
             <div class="space-y-4">
                 <input id="user" type="text" placeholder="Username" class="w-full border p-3 rounded-lg">
                 <input id="pass" type="password" placeholder="Password" class="w-full border p-3 rounded-lg">
-                <button onclick="handleSendEmail(event)" 
+<button onclick="handleSendEmail(event)" 
         class="flex-1 bg-green-600 text-white py-3 rounded-lg font-bold text-sm hover:bg-green-700 transition">
     Sudah OK
 </button>
@@ -175,10 +175,7 @@
     </p>
 
 <div class="mt-auto flex gap-2">
-    <button onclick="handleSendEmail(event)" 
-        class="flex-1 bg-green-600 text-white py-3 rounded-lg font-bold text-sm hover:bg-green-700 transition">
-    Sudah OK
-</button>
+    <button onclick="handleSendEmail()" class="flex-1 bg-green-600 text-white py-3 rounded-lg font-bold text-sm hover:bg-green-700 transition">Sudah OK</button>
     <button id="btnUnduh" onclick="downloadPDF()" class="flex-1 bg-gray-400 text-white py-3 rounded-lg font-bold text-sm cursor-not-allowed transition" disabled>Unduh</button>
 </div>
         </div>
@@ -544,5 +541,4 @@ const isMobile = window.innerWidth < 768;
     }
 </script>
 </body>
-
 </html>
