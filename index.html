@@ -20,6 +20,12 @@
     }
 }
 
+@media print {
+    .cert-preview-scale {
+        transform: none !important;
+    }
+}
+
 @media (min-width: 769px) {
     .cert-preview-scale {
         transform: scale(0.7);
@@ -34,7 +40,7 @@
 
 #suratContent {
     width: 210mm;
-    height: 330mm; /* Standar F4 */
+    min-height: 330mm; /* Standar F4 */
     margin: 0 !important;
     padding: 15mm;
     box-sizing: border-box;
@@ -452,23 +458,22 @@ function downloadPDF() {
     const namaFile = `${kelas}_${nama}_${bulan}_${tahun}`.toUpperCase();
     const isMobile = window.innerWidth < 768;
 
-    const opt = {
-        filename: `${namaFile}.pdf`,
-        margin: 0,
-        image: { type: 'jpeg', quality: 1 },
-        html2canvas: {
-            scale: isMobile ? 1.3 : 2,
-            useCORS: true,
-            logging: false
-        },
-        jsPDF: {
-            unit: 'mm',
-            format: [210, 330],
-            orientation: 'portrait',
-            compress: true
-        },
-        pagebreak: { mode: 'avoid-all' }
-    };
+const opt = {
+    margin: 0,
+    image: { type: 'jpeg', quality: 1 },
+    html2canvas: {
+        scale: isMobile ? 1 : 2,
+        useCORS: true,
+        logging: false
+    },
+    jsPDF: {
+        unit: 'mm',
+        format: [210, 330],
+        orientation: 'portrait',
+        compress: true
+    },
+    pagebreak: false
+};
 
     html2pdf()
         .set(opt)
@@ -477,7 +482,7 @@ function downloadPDF() {
 }
 
     async function handleSendEmail(event) {
-        const btn = event.target;
+        const btn = event.currentTarget;
         const btnUnduh = document.getElementById('btnUnduh');
         const originalText = btn.innerText;
         const element = document.getElementById('suratContent');
@@ -495,26 +500,37 @@ function downloadPDF() {
         }
         const namaFile = `${kelas}_${nama}_${bulan}_${tahun}.pdf`.toUpperCase();
 
+if (
+    !document.getElementById('selectKelas').value ||
+    !document.getElementById('selectMurid').value ||
+    !document.getElementById('tglSurat').value ||
+    !document.getElementById('tglHadir').value
+) {
+    alert("Lengkapi data terlebih dahulu sebelum klik Sudah OK.");
+    return;
+}
+
         btn.innerText = "Mengunggah...";
         btn.disabled = true;
 
         try {
 const isMobile = window.innerWidth < 768;
-        const opt = {
-            margin: 0,
-            image: { type: 'jpeg', quality: 1 },
-            html2canvas: {
-                scale: isMobile ? 1.3 : 2,
-                useCORS: true,
-                logging: false
-            },
-            jsPDF: {
-                unit: 'mm',
-                format: [210, 330],
-                orientation: 'portrait'
-            },
-            pagebreak: { mode: 'avoid-all' }
-        };
+const opt = {
+    margin: 0,
+    image: { type: 'jpeg', quality: 1 },
+    html2canvas: {
+        scale: isMobile ? 1 : 2,
+        useCORS: true,
+        logging: false
+    },
+    jsPDF: {
+        unit: 'mm',
+        format: [210, 330],
+        orientation: 'portrait',
+        compress: true
+    },
+    pagebreak: false
+};
 
             const pdfBase64 = await html2pdf().set(opt).from(element).outputPdf('datauristring');
             const base64Content = pdfBase64.split(',')[1];
@@ -543,5 +559,3 @@ const isMobile = window.innerWidth < 768;
 </script>
 </body>
 </html>
-
-
