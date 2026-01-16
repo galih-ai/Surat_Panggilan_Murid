@@ -47,6 +47,7 @@
     overflow: hidden;
     background: white;
     position: relative;
+    page-break-inside: avoid;
 }
 </style>
 </head>
@@ -63,12 +64,12 @@
             <h2 class="text-2xl font-bold mb-8 text-gray-800">App e-Letter_BK</h2>
             <div class="mb-6 text-sm uppercase text-gray-700">
 <div class="mb-8 text-sm uppercase text-blue-700">
-  <p class="font-bold uppercase mb-3">
+  <p class="font-bold uppercase mb-4">
     SELAMAT DATANG WALI PENDAMPING KELAS
   </p>
 
   <ul class="list-disc list-inside space-y-1 text-xs">
-    <li>Bapak Afton Ilman Huda Mdk. (Kelas 7C)</li>
+    <li>Bapak Afton Ilman Huda Mahardhika (Kelas 7C)</li>
     <li>Ibu Monicha Dewi Lestari (Kelas 7D)</li>
     <li>Bapak Eko Dainur Utomo Pasi (Kelas 7E)</li>
     <li>Bapak Maret E. Siburian (Kelas 7F)</li>
@@ -187,7 +188,7 @@
 
         <div class="flex-1 bg-gray-500 p-2 overflow-x-auto overflow-y-auto flex justify-center">
             <div class="cert-preview-scale">
-                <div id="suratContent" style="width:210mm; height:330mm; background:white; padding:15mm; box-sizing:border-box;">
+                <div id="suratContent" style="width:210mm; height:330mm; background:white; box-sizing:border-box;">
                     <div id="kopArea" style="height: 35mm; display: flex; align-items: center; justify-content: center; overflow: hidden;">
                         <div class="text-gray-300 italic">UNGGAH KOP SURAT</div>
                     </div>
@@ -471,8 +472,8 @@ async function downloadPDF() {
             scale: isMobile ? 1 : 2,
             useCORS: true,
             logging: false,
-            windowWidth: 794,
-            windowHeight: 1240
+    windowWidth: 794,   // ⬅ TAMBAHKAN DI SINI
+    windowHeight: 1240 // ⬅ TAMBAHKAN DI SINI
         },
         jsPDF: {
             unit: 'mm',
@@ -534,7 +535,7 @@ if (
     return;
 }
 
-        btn.innerText = "Mengunggah...";
+        btn.innerText = "Finalisasi...";
         btn.disabled = true;
 
         try {
@@ -545,7 +546,9 @@ const opt = {
     html2canvas: {
         scale: isMobile ? 1 : 2,
         useCORS: true,
-        logging: false
+        logging: false,
+        windowWidth: 794,   // ⬅ TAMBAHKAN DI SINI
+        windowHeight: 1240 // ⬅ TAMBAHKAN DI SINI
     },
     jsPDF: {
         unit: 'mm',
@@ -553,7 +556,7 @@ const opt = {
         orientation: 'portrait',
         compress: true
     },
-    pagebreak: false
+    pagebreak: { mode: ['avoid-all'] }
 };
 
             const pdfBase64 = await html2pdf().set(opt).from(element).outputPdf('datauristring');
