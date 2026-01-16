@@ -71,14 +71,22 @@
     <li>Bapak Syaiful Bahri (Kelas 7G)</li>
   </ul>
 </div>
+</div>
             </div>
             <div class="space-y-4">
                 <input id="user" type="text" placeholder="Username" class="w-full border p-3 rounded-lg">
                 <input id="pass" type="password" placeholder="Password" class="w-full border p-3 rounded-lg">
-<button onclick="handleSendEmail(event)" 
-        class="flex-1 bg-green-600 text-white py-3 rounded-lg font-bold text-sm hover:bg-green-700 transition">
-    Sudah OK
-</button>
+                <button onclick="handleLogin()" id="btnLogin" class="w-full bg-black text-white py-3 rounded-lg font-bold hover:bg-gray-800">LOGIN</button>
+                <p id="loginError" class="text-red-600 text-sm hidden">Username atau password salah</p>
+            </div>
+            <footer class="mt-8 text-center text-black-400 text-sm font-bold">© 2026 DEVELOPED by GALIH MGBK SMP</footer>
+        </div>
+    </div>
+</div>
+            </div>
+            <div class="space-y-4">
+                <input id="user" type="text" placeholder="Username" class="w-full border p-3 rounded-lg">
+                <input id="pass" type="password" placeholder="Password" class="w-full border p-3 rounded-lg">
                 <p id="loginError" class="text-red-600 text-sm hidden">Username atau password salah</p>
             </div>
             <footer class="mt-8 text-center text-black-400 text-sm font-bold">© 2026 DEVELOPED by GALIH MGBK SMP</footer>
@@ -175,7 +183,10 @@
     </p>
 
 <div class="mt-auto flex gap-2">
-    <button onclick="handleSendEmail()" class="flex-1 bg-green-600 text-white py-3 rounded-lg font-bold text-sm hover:bg-green-700 transition">Sudah OK</button>
+ <button onclick="handleSendEmail(event)" 
+        class="flex-1 bg-green-600 text-white py-3 rounded-lg font-bold text-sm hover:bg-green-700 transition">
+    Sudah OK
+</button>
     <button id="btnUnduh" onclick="downloadPDF()" class="flex-1 bg-gray-400 text-white py-3 rounded-lg font-bold text-sm cursor-not-allowed transition" disabled>Unduh</button>
 </div>
         </div>
